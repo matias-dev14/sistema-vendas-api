@@ -32,3 +32,4 @@ public class Venda {
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<ItemVenda> itens;
+}
