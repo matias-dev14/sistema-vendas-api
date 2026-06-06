@@ -8,45 +8,37 @@ import java.util.List;
 @RequestMapping("/produtos")
 public class ProdutoController {
 
-    private final ProdutoRepository repository;
+    private final ProdutoService service;
 
-    public ProdutoController(ProdutoRepository repository) {
-        this.repository = repository;
+    public ProdutoController(ProdutoService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<Produto> listar() {
-        return repository.findAll();
+        return service.listar();
     }
 
     @GetMapping("/{id}")
     public Produto buscarPorId(@PathVariable Long id) {
-        return repository.findById(id).orElse(null);
+        return service.buscarPorId(id);
     }
 
     @PostMapping
     public Produto cadastrar(@RequestBody Produto produto) {
-        return repository.save(produto);
+        return service.cadastrar(produto);
     }
 
     @PutMapping("/{id}")
     public Produto atualizar(
-        @PathVariable Long id,
-        @RequestBody Produto produtoAtualizado) {
+            @PathVariable Long id,
+            @RequestBody Produto produtoAtualizado) {
 
-            Produto produto = repository.findById(id).orElse(null);
-            if (produto != null) {
-                 return null;
-            }
-                produto.setNome(produtoAtualizado.getNome());
-                produto.setDescricao(produtoAtualizado.getDescricao());
-                produto.setPreco(produtoAtualizado.getPreco());
-                produto.setQuantidadeEstoque(produtoAtualizado.getQuantidadeEstoque());
-                
-                return repository.save(produto);
-            }
+        return service.atualizar(id, produtoAtualizado);
+    }
+
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.excluir(id);
     }
 }
