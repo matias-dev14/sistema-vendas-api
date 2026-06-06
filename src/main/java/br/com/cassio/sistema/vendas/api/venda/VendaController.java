@@ -2,32 +2,30 @@ package br.com.cassio.sistema.vendas.api.venda;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/vendas")
 public class VendaController {
 
-    private final VendaRepository repository;
+    private final VendaService service;
 
-    public VendaController(VendaRepository repository) {
-        this.repository = repository;
+    public VendaController(VendaService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<Venda> listar() {
-        return repository.findAll();
+        return service.listar();
     }
 
     @GetMapping("/{id}")
     public Venda buscarPorId(@PathVariable Long id) {
-        return repository.findById(id).orElse(null);
+        return service.buscarPorId(id);
     }
 
     @PostMapping
     public Venda cadastrar(@RequestBody Venda venda) {
-        venda.setDataVenda(LocalDateTime.now());
-        return repository.save(venda);
+        return service.cadastrar(venda);
     }
 }
