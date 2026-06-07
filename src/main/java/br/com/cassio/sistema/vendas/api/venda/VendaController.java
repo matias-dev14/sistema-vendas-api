@@ -1,33 +1,40 @@
 package br.com.cassio.sistema.vendas.api.venda;
 
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
+import br.com.cassio.sistema.vendas.api.cliente.Cliente;
 import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/vendas")
 public class VendaController {
 
-    private final VendaRepository repository;
+    private final VendaService service;
 
-    public VendaController(VendaRepository repository) {
-        this.repository = repository;
+    public VendaController(VendaService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public List<Venda> listar() {
-        return repository.findAll();
+    public List<VendaResponse> listar() {
+        return service.listar()
+                .stream()
+                .map(VendaResponse::new)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Venda buscarPorId(@PathVariable Long id) {
-        return repository.findById(id).orElse(null);
+    public VendaResponse buscarPorId(@PathVariable Long id) {
+        return new VendaResponse(service.buscarPorId(id));
     }
 
     @PostMapping
-    public Venda cadastrar(@RequestBody Venda venda) {
-        venda.setDataVenda(LocalDateTime.now());
-        return repository.save(venda);
+    public VendaResponse cadastrar(@RequestBody VendaRequest request) {
+
+        Venda venda = new Venda();
+
+        Cliente cliente = request.cliente();
+        venda.setCliente(cliente);
+
+        return new VendaResponse(service.cadastrar(venda));
     }
 }
