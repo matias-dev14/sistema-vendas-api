@@ -1,50 +1,57 @@
 package br.com.cassio.sistema.vendas.api.cliente;
 
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
 
-    private final ClienteRepository repository;
+    private final ClienteService service;
 
-    public ClienteController(ClienteRepository repository) {
-        this.repository = repository;
+    public ClienteController(ClienteService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public List<Cliente> listar() {
-        return repository.findAll();
+    public List<ClienteResponse> listar() {
+        return service.listar()
+                .stream()
+                .map(ClienteResponse::new)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Cliente buscarPorId(@PathVariable Long id) {
-        return repository.findById(id).orElse(null);
+    public ClienteResponse buscarPorId(@PathVariable Long id) {
+        return new ClienteResponse(service.buscarPorId(id));
     }
 
     @PostMapping
-    public Cliente cadastrar(@RequestBody Cliente cliente) {
-        return repository.save(cliente);
+    public ClienteResponse cadastrar(@RequestBody ClienteRequest request) {
+        Cliente cliente = new Cliente();
+        cliente.setNome(request.nome());
+        cliente.setEmail(request.email());
+        cliente.setTelefone(request.telefone());
+
+        return new ClienteResponse(service.cadastrar(cliente));
     }
 
     @PutMapping("/{id}")
-    public Cliente atualizar(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
-        Cliente cliente = repository.findById(id).orElse(null);
+    public ClienteResponse atualizar(
+            @PathVariable Long id,
+            @RequestBody ClienteRequest request) {
 
-        if (cliente == null) {
-            return null;
-        }
+        Cliente cliente = new Cliente();
+        cliente.setNome(request.nome());
+        cliente.setEmail(request.email());
+        cliente.setTelefone(request.telefone());
 
-        cliente.setNome(clienteAtualizado.getNome());
-        cliente.setEmail(clienteAtualizado.getEmail());
-        cliente.setTelefone(clienteAtualizado.getTelefone());
-
-        return repository.save(cliente);
+        return new ClienteResponse(service.atualizar(id, cliente));
     }
 
     @DeleteMapping("/{id}")
     public void excluir(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.excluir(id);
     }
 }
