@@ -1,17 +1,18 @@
 # Sistema de Vendas API
 
-API REST desenvolvida com Java e Spring Boot para gerenciamento de clientes.
+API REST desenvolvida com Spring Boot para gerenciamento de clientes, produtos, vendas e itens de venda.
 
 ## Tecnologias Utilizadas
 
 * Java 21
-* Spring Boot
+* Spring Boot 4
 * Spring Data JPA
+* Spring Security
+* JWT (JSON Web Token)
 * PostgreSQL
+* Swagger/OpenAPI
 * Maven
-* Hibernate
-* Git
-* GitHub
+* Lombok
 
 ## Funcionalidades
 
@@ -21,117 +22,125 @@ API REST desenvolvida com Java e Spring Boot para gerenciamento de clientes.
 * Listar clientes
 * Buscar cliente por ID
 * Atualizar cliente
-* Excluir cliente
+* Remover cliente
 
-## Estrutura do Projeto
+### Produtos
 
-```text
-src
-├── main
-│   ├── java
-│   │   └── br.com.cassio.sistema.vendas.api
-│   └── resources
-└── test
-```
+* Cadastrar produto
+* Listar produtos
+* Buscar produto por ID
+* Atualizar produto
+* Remover produto
 
-## Endpoints
+### Vendas
 
-### Listar clientes
+* Registrar venda
+* Consultar vendas
 
-```http
-GET /clientes
-```
+### Itens de Venda
 
-### Buscar cliente por ID
+* Adicionar itens à venda
+* Cálculo automático de subtotal
+* Controle automático de estoque
 
-```http
-GET /clientes/{id}
-```
+### Segurança
 
-### Cadastrar cliente
+* Cadastro de usuários
+* Login com JWT
+* Proteção de endpoints com Spring Security
+* Acesso autenticado via Bearer Token
 
-```http
-POST /clientes
-```
+## Arquitetura
 
-Exemplo de requisição:
+O projeto segue arquitetura em camadas:
+
+* Controller
+* Service
+* Repository
+* DTO
+* Security
+* Exception
+
+## Documentação da API
+
+Após iniciar a aplicação:
+
+http://localhost:8080/swagger-ui/index.html
+
+## Autenticação
+
+### Registrar usuário
+
+POST /auth/register
+
+### Realizar login
+
+POST /auth/login
+
+Exemplo:
 
 ```json
 {
-  "nome": "Cassio Matias",
-  "email": "cassio@email.com",
-  "telefone": "81999999999"
+  "email": "usuario@email.com",
+  "senha": "123456"
 }
 ```
 
-### Atualizar cliente
+Retorno:
 
-```http
-PUT /clientes/{id}
-```
-
-### Excluir cliente
-
-```http
-DELETE /clientes/{id}
+```json
+{
+  "token": "jwt-token"
+}
 ```
 
 ## Banco de Dados
 
 PostgreSQL
 
-Banco utilizado:
+Configuração em:
 
-```sql
-sistema_vendas
+```properties
+application.properties
 ```
 
-## Como Executar
+## Executando o Projeto
 
-### Clonar o projeto
+Clone o repositório:
 
 ```bash
 git clone https://github.com/matias-dev14/sistema-vendas-api.git
 ```
 
-### Entrar na pasta
+Acesse a pasta:
 
 ```bash
 cd sistema-vendas-api
 ```
 
-### Executar a aplicação
+Execute:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-ou
+## Funcionalidades Implementadas
 
-```bash
-mvn spring-boot:run
-```
-
-A aplicação ficará disponível em:
-
-```text
-http://localhost:8080
-```
-
-## Próximas Implementações
-
+* CRUD de Clientes
 * CRUD de Produtos
 * CRUD de Vendas
-* DTOs
-* Service Layer
+* CRUD de Itens de Venda
+* Controle de Estoque
 * Tratamento Global de Exceções
 * Swagger/OpenAPI
-* Autenticação JWT
-* Deploy em nuvem
+* JWT Authentication
+* Spring Security
+* Service Layer
+* DTOs (Request/Response)
 
-## Autor
+## Próximas Evoluções
 
-Cássio Matias Pereira
-
-GitHub:
-https://github.com/matias-dev14
+* Testes Automatizados (JUnit e MockMvc)
+* Docker
+* Deploy em Nuvem
+* CI/CD
