@@ -15,23 +15,39 @@ public class ClienteController {
     }
 
     @GetMapping
-    public List<Cliente> listar() {
-        return service.listar();
+    public List<ClienteResponse> listar() {
+        return service.listar()
+                .stream()
+                .map(ClienteResponse::new)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Cliente buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public ClienteResponse buscarPorId(@PathVariable Long id) {
+        return new ClienteResponse(service.buscarPorId(id));
     }
 
     @PostMapping
-    public Cliente cadastrar(@RequestBody Cliente cliente) {
-        return service.cadastrar(cliente);
+    public ClienteResponse cadastrar(@RequestBody ClienteRequest request) {
+        Cliente cliente = new Cliente();
+        cliente.setNome(request.nome());
+        cliente.setEmail(request.email());
+        cliente.setTelefone(request.telefone());
+
+        return new ClienteResponse(service.cadastrar(cliente));
     }
 
     @PutMapping("/{id}")
-    public Cliente atualizar(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
-        return service.atualizar(id, clienteAtualizado);
+    public ClienteResponse atualizar(
+            @PathVariable Long id,
+            @RequestBody ClienteRequest request) {
+
+        Cliente cliente = new Cliente();
+        cliente.setNome(request.nome());
+        cliente.setEmail(request.email());
+        cliente.setTelefone(request.telefone());
+
+        return new ClienteResponse(service.atualizar(id, cliente));
     }
 
     @DeleteMapping("/{id}")

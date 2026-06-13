@@ -20,7 +20,8 @@ public class ClienteService {
 
     public Cliente buscarPorId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Cliente não encontrado"));
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException("Cliente não encontrado"));
     }
 
     public Cliente cadastrar(Cliente cliente) {
@@ -38,7 +39,6 @@ public class ClienteService {
     }
 
     public void excluir(Long id) {
-        Cliente cliente = buscarPorId(id);
-        repository.delete(cliente);
+        repository.delete(buscarPorId(id));
     }
 }

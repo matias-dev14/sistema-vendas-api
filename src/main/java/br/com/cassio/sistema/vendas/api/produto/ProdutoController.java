@@ -15,26 +15,41 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> listar() {
-        return service.listar();
+    public List<ProdutoResponse> listar() {
+        return service.listar()
+                .stream()
+                .map(ProdutoResponse::new)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Produto buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public ProdutoResponse buscarPorId(@PathVariable Long id) {
+        return new ProdutoResponse(service.buscarPorId(id));
     }
 
     @PostMapping
-    public Produto cadastrar(@RequestBody Produto produto) {
-        return service.cadastrar(produto);
+    public ProdutoResponse cadastrar(@RequestBody ProdutoRequest request) {
+        Produto produto = new Produto();
+        produto.setNome(request.nome());
+        produto.setDescricao(request.descricao());
+        produto.setPreco(request.preco());
+        produto.setQuantidadeEstoque(request.quantidadeEstoque());
+
+        return new ProdutoResponse(service.cadastrar(produto));
     }
 
     @PutMapping("/{id}")
-    public Produto atualizar(
+    public ProdutoResponse atualizar(
             @PathVariable Long id,
-            @RequestBody Produto produtoAtualizado) {
+            @RequestBody ProdutoRequest request) {
 
-        return service.atualizar(id, produtoAtualizado);
+        Produto produto = new Produto();
+        produto.setNome(request.nome());
+        produto.setDescricao(request.descricao());
+        produto.setPreco(request.preco());
+        produto.setQuantidadeEstoque(request.quantidadeEstoque());
+
+        return new ProdutoResponse(service.atualizar(id, produto));
     }
 
     @DeleteMapping("/{id}")

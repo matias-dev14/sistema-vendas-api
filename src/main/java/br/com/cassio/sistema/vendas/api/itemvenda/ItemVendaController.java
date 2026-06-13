@@ -1,5 +1,7 @@
 package br.com.cassio.sistema.vendas.api.itemvenda;
 
+import br.com.cassio.sistema.vendas.api.produto.Produto;
+import br.com.cassio.sistema.vendas.api.venda.Venda;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +17,25 @@ public class ItemVendaController {
     }
 
     @GetMapping
-    public List<ItemVenda> listar() {
-        return service.listar();
+    public List<ItemVendaResponse> listar() {
+        return service.listar()
+                .stream()
+                .map(ItemVendaResponse::new)
+                .toList();
     }
 
     @PostMapping
-    public ItemVenda cadastrar(@RequestBody ItemVenda itemVenda) {
-        return service.cadastrar(itemVenda);
+    public ItemVendaResponse cadastrar(@RequestBody ItemVendaRequest request) {
+        ItemVenda itemVenda = new ItemVenda();
+
+        itemVenda.setQuantidade(request.quantidade());
+
+        Venda venda = request.venda();
+        Produto produto = request.produto();
+
+        itemVenda.setVenda(venda);
+        itemVenda.setProduto(produto);
+
+        return new ItemVendaResponse(service.cadastrar(itemVenda));
     }
 }

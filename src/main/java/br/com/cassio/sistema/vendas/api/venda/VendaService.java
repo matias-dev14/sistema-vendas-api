@@ -26,6 +26,11 @@ public class VendaService {
 
     public Venda cadastrar(Venda venda) {
         venda.setDataVenda(LocalDateTime.now());
+
+        if (venda.getValorTotal() == null) {
+            venda.setValorTotal(0.0);
+        }
+
         return repository.save(venda);
     }
 }
