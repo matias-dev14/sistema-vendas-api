@@ -11,4 +11,4 @@ class SistemaVendasApiApplicationTests {
     @Test
     void contextLoads() {
     }
-}	
+}
