@@ -1,146 +1,125 @@
 # Sistema de Vendas API
 
-API REST desenvolvida com Spring Boot para gerenciamento de clientes, produtos, vendas e itens de venda.
+API REST desenvolvida com Java e Spring Boot para gerenciamento de clientes, produtos e vendas.
 
 ## Tecnologias Utilizadas
 
-* Java 21
-* Spring Boot 4
-* Spring Data JPA
-* Spring Security
-* JWT (JSON Web Token)
-* PostgreSQL
-* Swagger/OpenAPI
-* Maven
-* Lombok
+- Java 21
+- Spring Boot 4
+- Spring Data JPA
+- Spring Security
+- JWT
+- PostgreSQL
+- Docker
+- Docker Compose
+- Swagger / OpenAPI
+- JUnit 5
+- GitHub Actions
+- Render
+
+## API Online
+
+https://sistema-vendas-api-1.onrender.com
+
+## Documentação Swagger
+
+https://sistema-vendas-api-1.onrender.com/swagger-ui/index.html
 
 ## Funcionalidades
 
 ### Clientes
 
-* Cadastrar cliente
-* Listar clientes
-* Buscar cliente por ID
-* Atualizar cliente
-* Remover cliente
+- Cadastrar cliente
+- Buscar cliente por ID
+- Atualizar cliente
+- Remover cliente
+- Listar clientes
 
 ### Produtos
 
-* Cadastrar produto
-* Listar produtos
-* Buscar produto por ID
-* Atualizar produto
-* Remover produto
+- Cadastrar produto
+- Buscar produto por ID
+- Atualizar produto
+- Remover produto
+- Listar produtos
 
 ### Vendas
 
-* Registrar venda
-* Consultar vendas
-
-### Itens de Venda
-
-* Adicionar itens à venda
-* Cálculo automático de subtotal
-* Controle automático de estoque
-
-### Segurança
-
-* Cadastro de usuários
-* Login com JWT
-* Proteção de endpoints com Spring Security
-* Acesso autenticado via Bearer Token
+- Registrar venda
+- Consultar vendas
+- Gerenciar itens da venda
 
 ## Arquitetura
 
-O projeto segue arquitetura em camadas:
-
-* Controller
-* Service
-* Repository
-* DTO
-* Security
-* Exception
-
-## Documentação da API
-
-Após iniciar a aplicação:
-
-http://localhost:8080/swagger-ui/index.html
-
-## Autenticação
-
-### Registrar usuário
-
-POST /auth/register
-
-### Realizar login
-
-POST /auth/login
-
-Exemplo:
-
-```json
-{
-  "email": "usuario@email.com",
-  "senha": "123456"
-}
-```
-
-Retorno:
-
-```json
-{
-  "token": "jwt-token"
-}
-```
-
-## Banco de Dados
-
+```text
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
 PostgreSQL
-
-Configuração em:
-
-```properties
-application.properties
 ```
 
-## Executando o Projeto
+## Executar Localmente
 
-Clone o repositório:
+### Clonar repositório
 
 ```bash
 git clone https://github.com/matias-dev14/sistema-vendas-api.git
-```
-
-Acesse a pasta:
-
-```bash
 cd sistema-vendas-api
 ```
 
-Execute:
+### Executar com Maven
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-## Funcionalidades Implementadas
+ou no Windows:
 
-* CRUD de Clientes
-* CRUD de Produtos
-* CRUD de Vendas
-* CRUD de Itens de Venda
-* Controle de Estoque
-* Tratamento Global de Exceções
-* Swagger/OpenAPI
-* JWT Authentication
-* Spring Security
-* Service Layer
-* DTOs (Request/Response)
+```bash
+mvnw.cmd spring-boot:run
+```
 
-## Próximas Evoluções
+## Executar com Docker
 
-* Testes Automatizados (JUnit e MockMvc)
-* Docker
-* Deploy em Nuvem
-* CI/CD
+```bash
+docker compose up --build
+```
+
+## Executar Testes
+
+```bash
+./mvnw test
+```
+
+## Integração Contínua
+
+O projeto utiliza GitHub Actions para:
+
+- Build automático
+- Execução de testes
+- Validação de Pull Requests
+
+## Segurança
+
+- Autenticação JWT
+- Spring Security
+- Controle de acesso por token
+
+## Deploy
+
+Aplicação publicada no Render:
+
+https://sistema-vendas-api-1.onrender.com
+
+## Autor
+
+Cássio Matias Pereira
+
+GitHub:
+https://github.com/matias-dev14
+
+LinkedIn:
+https://github.com/matias-dev14
